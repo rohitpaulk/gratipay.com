@@ -3,12 +3,12 @@ addons:
   postgresql: 9.3
 before_install:
  - node --version
+ - echo "${TRAVIS_BRANCH}"
+ - echo "`git rev-parse --abbrev-ref HEAD`"
 install:
  - make env node_modules
  - pip install coveralls
 before_script:
- - echo "${TRAVIS_BRANCH}"
- - echo "`git rev-parse --abbrev-ref HEAD`"
  - echo "DATABASE_URL=dbname=gratipay" | tee -a tests/local.env local.env
  - psql -U postgres -c 'CREATE DATABASE "gratipay";'
  - if [ "`git rev-parse --abbrev-ref HEAD`" = "master" ]; then rm -rf tests/fixtures; fi
